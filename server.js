@@ -12,36 +12,43 @@ let friends = [
     name: "Rachel Green",
     age: 30,
     email: "rachel@friends.com",
+    imageUrl: "https://i.pravatar.cc/150?img=45",
   },
   {
     id: 2,
     name: "Joey Tribbiani",
     age: 34,
     email: "joey@friends.com",
+    imageUrl: "https://i.pravatar.cc/150?img=60",
   },
   {
     id: 3,
     name: "Chandler Bing",
     age: 32,
     email: "chandler@friends.com",
+    imageUrl: "https://i.pravatar.cc/150?img=57",
   },
   {
     id: 4,
     name: "Ross Geller",
     age: 32,
     email: "ross@friends.com",
+
+    imageUrl: "https://i.pravatar.cc/150?img=52",
   },
   {
     id: 5,
     name: "Monica Bing",
     age: 31,
     email: "monica@friends.com",
+    imageUrl: "https://i.pravatar.cc/150?img=32",
   },
   {
     id: 6,
     name: "Phoebe Buffay-Hannigan",
     age: 30,
     email: "phoebe@friends.com",
+    imageUrl: "https://i.pravatar.cc/150?img=24",
   },
 ];
 
@@ -66,13 +73,14 @@ function authenticator(req, res, next) {
 
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
+  // I think email is more aesthetic on a login page then a username. I also find myself forgetting various usernames much much more than my main email.
   if (email === "lambda@gmail.com" && password === "school") {
     req.loggedIn = true;
     res.status(200).json({
       payload: token,
     });
   } else {
-    res.status(403).json({ message: "Username or Password Incorrect" });
+    res.status(403).json({ error: "Username or Password Incorrect" });
   }
 });
 

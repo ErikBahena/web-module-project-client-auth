@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -33,7 +31,7 @@ const initialFormValues = {
 
 const initialFormError = "";
 
-export default function Login({ setIsLoggedIn }) {
+export default function Login({ setIsLoggedIn, ...rest }) {
   const [formState, setFormState] = useState(initialFormValues);
   const [formError, setFormError] = useState(initialFormError);
 
@@ -44,10 +42,12 @@ export default function Login({ setIsLoggedIn }) {
       .post("http://localhost:5000/api/login", formState)
       .then((res) => {
         setIsLoggedIn(true);
-
         localStorage.setItem("token", res.data.payload);
+
+        rest.history.push("/friends");
       })
-      .catch((err) => {
+      .catch(() => {
+        //   Tried finding the error out of the err response, couldn't find it so I settled for this since there is only one possible error at this endpoint. Will not do this in future instances, the api should return a proper validation error.
         setFormError("The email or password is incorrect");
       });
   };

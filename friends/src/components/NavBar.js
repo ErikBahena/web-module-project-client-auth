@@ -1,26 +1,40 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
+import axiosWithAuth from "../utils/axiosWithAuth";
+
 export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { push } = useHistory();
+
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = (e) => {
-    if (e.target.textContent === "Logout") setIsLoggedIn(false);
+    if (e.target.textContent === "Logout") {
+      axiosWithAuth()
+        .post("/logout")
+        .then(() => {
+          setIsLoggedIn(false);
+          localStorage.removeItem("token");
+          push("/login");
+        });
+    }
+
+    if (e.target.textContent === "addFriend") {
+      push("/addFriend");
+    }
 
     setAnchorEl(null);
   };
@@ -42,7 +56,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <MenuIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -59,14 +73,12 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem
-                  aria-label="logout button"
-                  value="logout"
-                  onClick={handleClose}
-                >
+                <MenuItem value="logout" onClick={handleClose}>
                   Logout
                 </MenuItem>
-                <MenuItem onClick={handleClose}>View Friends</MenuItem>
+                <MenuItem value="addFriend" onClick={handleClose}>
+                  Add Friend
+                </MenuItem>
               </Menu>
             </div>
           )}
