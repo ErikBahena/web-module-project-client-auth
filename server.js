@@ -110,9 +110,24 @@ app.get("/api/friends/:id", authenticator, (req, res) => {
 app.post("/api/friends", authenticator, (req, res) => {
   const friend = { id: getNextId(), ...req.body };
 
-  friends = [...friends, friend];
+  friends = [friend, ...friends];
 
-  res.send(friends);
+  // I needed to send back an error if there was no age, email, gender, or name.
+  if (!friend.age || !friend.email || !friend.gender || !friend.name) {
+    res.status(404).send({ msg: "All fields are required" });
+  } else {
+    res.send(friends);
+  }
+});
+
+app.delete("/api/friends", (req, res) => {
+  const newFriends = { ...req.body };
+
+  friends = Object.values(newFriends);
+
+  setTimeout(() => {
+    res.send(friends);
+  }, 250);
 });
 
 app.get("/api/", (req, res) => {

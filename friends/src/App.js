@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Login from "./components/Login";
 import FriendsList from "./components/friends/FriendsList";
+import AddFriend from "./components/AddFriend";
 
 // Private Routes
 import PrivateRoute from "./routes/PrivateRoute";
@@ -19,6 +20,7 @@ function App() {
       <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
       <Switch>
+        <PrivateRoute exact path="/addfriend" component={AddFriend} />
         <PrivateRoute exact path="/friends" component={FriendsList} />
 
         {/* If our site had some type of landing page then this redirect would not need to exist. Note to self  */}

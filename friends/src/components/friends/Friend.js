@@ -11,11 +11,9 @@ import {
 
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import { nanoid } from "nanoid";
-
 export default function Friend({ name, email, imageUrl, id, handleDelete }) {
   return (
-    <ListItem className="friend" key={nanoid(10)} alignItems="center">
+    <ListItem className="friend" alignItems="center">
       <ListItemAvatar>
         <Avatar alt="Remy Sharp" src={imageUrl} />
       </ListItemAvatar>

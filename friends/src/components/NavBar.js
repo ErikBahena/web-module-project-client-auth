@@ -32,8 +32,8 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
         });
     }
 
-    if (e.target.textContent === "addFriend") {
-      push("/addFriend");
+    if (e.target.textContent === "Add Friend") {
+      push("/addfriend");
     }
 
     setAnchorEl(null);

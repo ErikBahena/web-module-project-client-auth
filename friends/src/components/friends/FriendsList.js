@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 
 import axiosWithAuth from "../../utils/axiosWithAuth";
+import axios from "axios";
 
-import { nanoid } from "nanoid";
 import Friend from "./Friend";
 import { Typography, Container } from "@mui/material";
 
@@ -13,13 +13,21 @@ export default function Friendslist() {
   const [friends, setFriends] = useState([]);
 
   const handleDelete = (id) => {
-    console.log(id);
+    const newFriends = friends.slice(0).filter((friend) => friend.id !== id);
+
+    // Just figured out that the server does stay open somehow, when I refresh the data is still the same, I believe this comes from nodemon. So running a server localy has a whole new meaning now.
+    axios
+      .delete("http://localhost:5000/api/friends", { data: newFriends })
+      .then((res) => {
+        setFriends(res.data);
+      });
   };
 
   useEffect(() => {
     axiosWithAuth()
       .get("/friends")
       .then((res) => {
+        console.log(res.data);
         setFriends(res.data);
       });
   }, []);
@@ -40,12 +48,12 @@ export default function Friendslist() {
           maxWidth: 360,
         }}
       >
-        {friends.map(({ ...rest }) => {
+        {friends.map(({ ...rest }, i) => {
           return (
-            <>
-              <Friend {...rest} key={nanoid(3)} handleDelete={handleDelete} />
-              <Divider key={nanoid(5)} variant="inset" component="li" />
-            </>
+            <Fragment key={i}>
+              <Friend {...rest} handleDelete={handleDelete} />
+              <Divider variant="inset" component="li" />
+            </Fragment>
           );
         })}
       </List>
