@@ -9,6 +9,7 @@ import AddFriend from "./components/AddFriend";
 
 // Private Routes
 import PrivateRoute from "./routes/PrivateRoute";
+import LoginRoute from "./routes/LoginRoute";
 
 function App() {
   // Needed this to initialize based on whether or not an item existed in local storage. !!string evaluates to true if the string contains a truthy value like "asdfasdf" and evaluates to false if string is empty.
@@ -25,7 +26,7 @@ function App() {
 
         {/* If our site had some type of landing page then this redirect would not need to exist. Note to self  */}
         <Redirect exact path="/" to="/login" />
-        <Route
+        <LoginRoute
           exact
           path="/login"
           render={(props) => <Login {...props} setIsLoggedIn={setIsLoggedIn} />}

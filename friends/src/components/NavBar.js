@@ -43,7 +43,14 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            onClick={() => {
+              push("/friends");
+            }}
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, cursor: "pointer" }}
+          >
             Friends Viewer
           </Typography>
           {isLoggedIn && (

@@ -27,7 +27,6 @@ export default function Friendslist() {
     axiosWithAuth()
       .get("/friends")
       .then((res) => {
-        console.log(res.data);
         setFriends(res.data);
       });
   }, []);
